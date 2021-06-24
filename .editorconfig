@@ -1,0 +1,5 @@
+# https://stackoverflow.com/a/66611495/734848
+# https://editorconfig.org/
+[*]
+indent_style = tab
+indent_size = 4
