@@ -58,7 +58,7 @@ Compilation is pretty straight forward, just make sure you enable C99 support.
 
 ~~~~c
 // For release builds
-gcc -std=c99 -O2 msutimer.c -o msutimer.o
+gcc -std=c99 -O2 -c msutimer.c -o msutimer.o
 ~~~~
 
 There is also an `MSUTDEBUG` preprocessor directive, for debugging purposes.
@@ -68,10 +68,10 @@ error.
 
 ~~~~c
 // For debug builds, with reporting but no exiting on errors
-gcc -std=c99 -g3 -DMSUTDEBUG -Wall -Wextra msutimer.c -o msutimerDbg.o
+gcc -std=c99 -g3 -DMSUTDEBUG -Wall -Wextra -c msutimer.c -o msutimerDbg.o
 
 // For debug builds, with reporting AND exiting on errors
-gcc -std=c99 -g3 -DMSUTDEBUG=2 -Wall -Wextra msutimer.c -o msutimerDbgX.o
+gcc -std=c99 -g3 -DMSUTDEBUG=2 -Wall -Wextra -c msutimer.c -o msutimerDbgX.o
 ~~~~
 
 > `MSDEBUG` may also be used instead of `MSUTDEBUG` (just to stay consistent with

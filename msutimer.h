@@ -3,12 +3,12 @@
  * @version	0.01 alpha
  * @date	19 June, 2021
  * @author 	migf1 <mig_f1@hotmail.com>
- * @par Language: ISO C99
+ * @par Language:
+ *		ISO C99
+ * @par Online Docs:
+ *		https://migf1.github.io/msutimer-docs/
  *
- * @brief Simple High Resolution Timer for C.
- *
- * Public interface to *MSUTimer* private implementation.
- *
+ * @brief Simple High Resolution Timer for C (public interface).
  */
 
 #ifndef MSUTIMER_H			/* start of inclusion guard */

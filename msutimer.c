@@ -31,7 +31,7 @@
 #include <math.h>		// fabs(), etc
 #include <errno.h>
 
-// attempt to auto-detect platform
+// Platform detection
 #if defined(__WIN32)
 	#define MSUT_OS_WINDOWS 1
 #elif defined(__unix__) || defined (__linux__) || (defined(__APPLE__) && defined(__MACH__))
@@ -40,10 +40,11 @@
 	// #define MSUT_OS_FALLBACK 1
 #endif
 
-// uncomment & adjust to force a platform manually
+// Uncomment & adjust to force a platform manually
 // #define MSUT_OS_WINDOWS 0
 // #define MSUT_OS_POSIX 0
 
+// cross-platform data-type for time
 #if MSUT_OS_WINDOWS
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>	// for LARGE_INTEGER, QueryPerformanceCounter(), QueryPerformanceFrequency()
@@ -58,13 +59,14 @@
 	typedef clock_t MSUTimerTime;			// typically a long int
 #endif
 
+// Cross platform MSUTimer data-type
 typedef struct MSUTimer_ {
 	MSUTimerTime freq;	// ticks per sec
 	MSUTimerTime t1;	// ticks of starting time
 	double diffusecs;
 } MSUTimer;
 
-/* same debugging compiler flag with MyStr */
+// debugging compiler flag (MSDEBUG added for consistency with MyStr
 #if MSUTDEBUG == 1 || MSDEBUG == 1
 	#define MSUT_DBGMSG( msgtype, format, ... )\
 		fprintf(stderr, "*** MSUTimer %s [ %s: %s():%ld ]\n==> " format, msgtype, __FILE__, __func__, (long)(__LINE__), __VA_ARGS__ )
@@ -81,10 +83,13 @@ typedef struct MSUTimer_ {
 
 /* ----------------------------------
  * Private Helper Functions
+ * (no sanity checks)
  * ----------------------------------
  */
 
 // ----------------------------------------
+// Get current time as cross-platform MSUTimerTime.
+// Return false on error, true otherwise
 //
 static inline bool get_msuttime_( MSUTimerTime *t )
 {
@@ -101,6 +106,7 @@ static inline bool get_msuttime_( MSUTimerTime *t )
 }
 
 // ----------------------------------------
+// Convert an MSUTimerTime to microseconds and return them as double.
 //
 static inline double msuttime_to_usecs_( const MSUTimerTime *t, const MSUTimerTime *freq )
 {
@@ -119,6 +125,8 @@ static inline double msuttime_to_usecs_( const MSUTimerTime *t, const MSUTimerTi
 }
 
 // ----------------------------------------
+// Given an MSUTimer and an MSUTimerTime, update the former with their time
+// difference in microseconds (MSUTimer->t1 is considered the starting time).
 //
 static inline void update_diffusecs_( MSUTimer *timer, const MSUTimerTime *t2 )
 {
@@ -180,9 +188,6 @@ MSUTimer *msutimer_new( void )
 		MSUT_DBGMSG( "ERROR", "calloc(%zu) failed. Return: NULL\n", sizeof(*timer) );
 		return NULL;
 	}
-
-	// Regardless the platform, the following if-checks need to be done just once
-	// (hence in the constructor only).
 
 	// reset the created timer
 
@@ -394,7 +399,7 @@ double msutimer_diff_secs( MSUTimer *timer )
 /**
  * Obtains the minimum time-interval that can be measured by *MSUTimer*, on
  * the running platform. The returned *microseconds* can be converted to
- * *milliseconds* or *seconds*, with the convenience	macros MSUT_US2MS() or
+ * *milliseconds* or *seconds*, with the convenience macros MSUT_US2MS() or
  * MSUT_US2S(), respectively.
  *
  * @param timer
@@ -405,7 +410,7 @@ double msutimer_diff_secs( MSUTimer *timer )
  * @remarks
  *		On Windows, a typical accuracy is around 0.320 *microseconds*.
  *		Occasionally the function may return a bogus value, but it is pretty
- *		rare (and I really don't know why is that).
+ *		rare (and I really don't know why it's doing that).
  *
  * @par Failures:
  * 		- timer is `NULL` (`errno` is set to `EDOM`)
