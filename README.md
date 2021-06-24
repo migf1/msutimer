@@ -19,7 +19,7 @@ Platform Dependent Measurements
 The function msutimer_accuracy_usecs() may be used to get *MSUTimer*'s accuracy
 in *microseconds*, at run time.
 
-~~~~{.c}
+~~~~c
 double msutimer_accuracy_usecs( MSUTimer *timer );
 ~~~~
 
@@ -56,7 +56,7 @@ Compilation {#msut_compile}
 
 Compilation is pretty straight forward, just make sure you enable C99 support.
 
-~~~~{.c}
+~~~~c
 	// For release builds
 	gcc -std=c99 -O2 msutimer.c -o msutimer.o
 ~~~~
@@ -66,7 +66,7 @@ When defined with a value of 1, it reports errors on `stderr`. When defined with
 a value of 2 or greater, it additionally stops the execution after reporting an
 error.
 
-~~~~{.c}
+~~~~c
 	// For debug builds, with reporting but no exiting on errors
 	gcc -std=c99 -g3 -DMSUTDEBUG -Wall -Wextra msutimer.c -o msutimerDbg.o
 
@@ -106,7 +106,7 @@ When a timer is no longer needed, it should be freed with msutimer_free().
 The following code-snippet demonstrates both auto and manual approaches,
 along with cumulative timing which is manual only (the `totusecs` variable):
 
-~~~~{.c}
+~~~~c
 	#include "msutimer.h"
 	...
 	int main( void )
@@ -154,7 +154,7 @@ should be of type `bool` (C99) returning `false` on error, `true` otherwise
 (see the docs of these functions for details). The prototype of the expected
 callback function is the following:
 
-~~~~{.c}
+~~~~c
 	bool (*callback)(void *userdata)
 ~~~~
 
@@ -164,7 +164,7 @@ random number, in 3 different ways:
 - printing the average after running 10 times
 - printing the median after running 10 times
 
-~~~~{.c}
+~~~~c
 	#include "msutimer.h"
 
 	#include <math.h>	// for sqrt()
@@ -217,7 +217,7 @@ random number, in 3 different ways:
 		exit(0);
 	}
 ~~~~
-~~~~{.c}
+~~~~c
 	// Output -------------
 	Timing 50000000 iterations of sqrt(21954.000):
 	0.689210245 secs | Run 1 time(s)

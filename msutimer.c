@@ -153,7 +153,6 @@ static int compare_doubles_for_qsort_( const void *a, const void *b )
 
 // ----------------------------------------
 // MSUTimer *msutimer_new( void );
-//
 /**
  * Constructs, initializes and starts a new timer. De-allocation should be done
  * by the caller, with msutimer_free().
@@ -214,7 +213,6 @@ fail:
 
 // ----------------------------------------
 // MSUTimer *msutimer_free( MSUTimer *timer );
-//
 /**
  * De-allocates the memory reserved for its timer argument.
  *
@@ -240,20 +238,8 @@ MSUTimer *msutimer_free( MSUTimer *timer )
 	}
 	return NULL;
 }
-
-// Return a double representing current time in micro-secs.
-// Useful ONLY for fetching the difference between 2 calls of the function.
-// e.g.
-//		MSUTimer *timer = msutimer_new();
-//		double t1 = msutimer_query(timer);
-//		// ... code to be timed...
-//		double t2 = msutimer_query(timer);
-//		printf( "t2-t1: %lf\n", t2-t1);
-//		msutimer_free(timer);
-
 // ----------------------------------------
 // double msutimer_gettime( MSUTimer *timer );
-//
 /**
  * Gets the current time and Updates its timer argument with the elapsed time
  * since the previous call of the function, or the construction of the timer
