@@ -51,7 +51,7 @@ depending on the platform:
 - on Unix/Linux/macOS: `gettimeofday()`
 - fallback: `clock()`
 
-Compilation {#msut_compile}
+Compilation
 ===========
 
 Compilation is pretty straight forward, just make sure you enable C99 support.
@@ -77,7 +77,7 @@ gcc -std=c99 -g3 -DMSUTDEBUG=2 -Wall -Wextra msutimer.c -o msutimerDbgX.o
 > `MSDEBUG` may also be used instead of `MSUTDEBUG` (just to stay consistent with
 > *MyStr*).
 
-Usage {#msut_use}
+Usage
 =====
 
 To use *MSUTimer* we can either build it as an object or library file and then
@@ -139,7 +139,7 @@ int main( void )
 }
 ~~~~
 
-Benchmarking {#msut_bench}
+Benchmarking
 ============
 
 There are also a few benchmarking functions available, namely:
