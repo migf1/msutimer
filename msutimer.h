@@ -1,5 +1,5 @@
 /*
-zlib License
+Zlib License
 --------------------------------------------------
 Copyright (c) 2021 migf1@hotmail.com
 

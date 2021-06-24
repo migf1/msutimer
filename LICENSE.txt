@@ -3,7 +3,7 @@
 
 Copyright (c) 2021 migf1@hotmail.com
 
-zlib License
+Zlib License
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
