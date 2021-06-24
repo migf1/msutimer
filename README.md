@@ -1,5 +1,3 @@
-@mainpage MSUTimer - Simple High Resolution Timer for C
-
 Intro
 =====
 
@@ -15,7 +13,7 @@ timing consistency across different platforms.
 That said, it's by far more useful & reliable on Windows, under which it was
 compiled anyway (using MinGW32).
 
-Platform Dependent Measurements {#msut_pdm}
+Platform Dependent Measurements
 ===============================
 
 The function msutimer_accuracy_usecs() may be used to get *MSUTimer*'s accuracy
