@@ -57,8 +57,8 @@ Compilation {#msut_compile}
 Compilation is pretty straight forward, just make sure you enable C99 support.
 
 ~~~~c
-	// For release builds
-	gcc -std=c99 -O2 msutimer.c -o msutimer.o
+// For release builds
+gcc -std=c99 -O2 msutimer.c -o msutimer.o
 ~~~~
 
 There is also an `MSUTDEBUG` preprocessor directive, for debugging purposes.
@@ -67,12 +67,11 @@ a value of 2 or greater, it additionally stops the execution after reporting an
 error.
 
 ~~~~c
-	// For debug builds, with reporting but no exiting on errors
-	gcc -std=c99 -g3 -DMSUTDEBUG -Wall -Wextra msutimer.c -o msutimerDbg.o
+// For debug builds, with reporting but no exiting on errors
+gcc -std=c99 -g3 -DMSUTDEBUG -Wall -Wextra msutimer.c -o msutimerDbg.o
 
-	// For debug builds, with reporting AND exiting on errors
-	gcc -std=c99 -g3 -DMSUTDEBUG=2 -Wall -Wextra msutimer.c -o msutimerDbgX.o
-
+// For debug builds, with reporting AND exiting on errors
+gcc -std=c99 -g3 -DMSUTDEBUG=2 -Wall -Wextra msutimer.c -o msutimerDbgX.o
 ~~~~
 
 > `MSDEBUG` may also be used instead of `MSUTDEBUG` (just to stay consistent with
@@ -107,37 +106,37 @@ The following code-snippet demonstrates both auto and manual approaches,
 along with cumulative timing which is manual only (the `totusecs` variable):
 
 ~~~~c
-	#include "msutimer.h"
-	...
-	int main( void )
-	{
-		MSUTimer *timer = msutimer_new();
-		if (!timer) { fputs("msutimer_new() failed!\n", stderr); exit(1); }
+#include "msutimer.h"
+...
+int main( void )
+{
+	MSUTimer *timer = msutimer_new();
+	if (!timer) { fputs("msutimer_new() failed!\n", stderr); exit(1); }
 
-		double totusecs = msutimer_gettime(timer);		// store overall starting time
+	double totusecs = msutimer_gettime(timer);		// store overall starting time
 
-		// AUTO TIME-DIFFERENCE & CONVERSIONS
-		msutimer_gettime(timer);						// new starting time
-		// ... code to be timed goes here ...
-		msutimer_gettime(timer);						// stopping time
-		printf( "%.9lf secs\n", msutimer_diff_secs(timer) );	// print diff in secs
-		printf( "%.9lf msecs\n", msutimer_diff_msecs(timer) );	// print diff in millisecs
-		printf( "%.9lf usecs\n", msutimer_diff_usecs(timer) );	// print diff in microsecs
+	// AUTO TIME-DIFFERENCE & CONVERSIONS
+	msutimer_gettime(timer);						// new starting time
+	// ... code to be timed goes here ...
+	msutimer_gettime(timer);						// stopping time
+	printf( "%.9lf secs\n", msutimer_diff_secs(timer) );	// print diff in secs
+	printf( "%.9lf msecs\n", msutimer_diff_msecs(timer) );	// print diff in millisecs
+	printf( "%.9lf usecs\n", msutimer_diff_usecs(timer) );	// print diff in microsecs
 
-		// MANUAL TIME-DIFFERENCE & CONVERSIONS
-		double usecs = msutimer_gettime(timer);			// store another new starting time
-		// ... code to be timed goes here ...
-		usecs = msutimer_gettime(timer) - usecs;		// calc & store time diff
-		printf( "\n%.9lf secs\n", MSUT_US2S(usecs) );	// print diff in secs
-		printf( "%.9lf msecs\n", MSUT_US2MS(usecs) );	// print diff in millisecs
-		printf( "%.9lf usecs\n", usecs );				// print diff in microsecs
+	// MANUAL TIME-DIFFERENCE & CONVERSIONS
+	double usecs = msutimer_gettime(timer);			// store another new starting time
+	// ... code to be timed goes here ...
+	usecs = msutimer_gettime(timer) - usecs;		// calc & store time diff
+	printf( "\n%.9lf secs\n", MSUT_US2S(usecs) );	// print diff in secs
+	printf( "%.9lf msecs\n", MSUT_US2MS(usecs) );	// print diff in millisecs
+	printf( "%.9lf usecs\n", usecs );				// print diff in microsecs
 
-		totusecs = msutimer_gettime(timer) - totusecs;	// calc & store overall time diff
-		printf( "\n%.9lf secs\n", MSUT_US2S(totusecs) );// print overall time diff in secs
+	totusecs = msutimer_gettime(timer) - totusecs;	// calc & store overall time diff
+	printf( "\n%.9lf secs\n", MSUT_US2S(totusecs) );// print overall time diff in secs
 
-		msutimer_free( timer );
-		exit(0);
-	}
+	msutimer_free( timer );
+	exit(0);
+}
 ~~~~
 
 Benchmarking {#msut_bench}
@@ -155,7 +154,7 @@ should be of type `bool` (C99) returning `false` on error, `true` otherwise
 callback function is the following:
 
 ~~~~c
-	bool (*callback)(void *userdata)
+bool (*callback)(void *userdata)
 ~~~~
 
 Here's a full example, timing 50,000,000 square-root calculations of the same
@@ -165,62 +164,62 @@ random number, in 3 different ways:
 - printing the median after running 10 times
 
 ~~~~c
-	#include "msutimer.h"
+#include "msutimer.h"
 
-	#include <math.h>	// for sqrt()
-	#include <errno.h>	// for catching sqrt() failures
-	#include <stdio.h>	// for fputs(), printf()
-	#include <stdlib.h>	// for srand(), rand(), size_t
-	#include <time.h>	// for time()
+#include <math.h>	// for sqrt()
+#include <errno.h>	// for catching sqrt() failures
+#include <stdio.h>	// for fputs(), printf()
+#include <stdlib.h>	// for srand(), rand(), size_t
+#include <time.h>	// for time()
 
-	struct TestData {
-		size_t n;	// iterations in callback
-		double x;	// num whose square-root will be calc'ed n times
-	};
-	// ----------------------------------------
-	static bool stress_test_callback( void *userdata )
-	{
-		// no need for extra overhead, unless we don't know who is going to use this func
-		// if ( !userdata ) { fputs("callback failed!\n", stderr); return false; }
+struct TestData {
+	size_t n;	// iterations in callback
+	double x;	// num whose square-root will be calc'ed n times
+};
+// ----------------------------------------
+static bool stress_test_callback( void *userdata )
+{
+	// no need for extra overhead, unless we don't know who is going to use this func
+	// if ( !userdata ) { fputs("callback failed!\n", stderr); return false; }
 
-		struct TestData *td = userdata;
-		for (size_t i=0; i < td->n; i++) {
-			errno = 0;
-			sqrt( td->x );
-			if (errno != 0 ) { fputs("sqrt() failed in callback!\n", stderr); return false; }
-		}
-		return true;
+	struct TestData *td = userdata;
+	for (size_t i=0; i < td->n; i++) {
+		errno = 0;
+		sqrt( td->x );
+		if (errno != 0 ) { fputs("sqrt() failed in callback!\n", stderr); return false; }
 	}
-	// ----------------------------------------
-	int main( void )
-	{
-		MSUTimer *timer = msutimer_new();
-		if (!timer) { fputs("msutimer_new()failed!\n", stderr); exit(1); }
+	return true;
+}
+// ----------------------------------------
+int main( void )
+{
+	MSUTimer *timer = msutimer_new();
+	if (!timer) { fputs("msutimer_new()failed!\n", stderr); exit(1); }
 
-		srand( time(NULL) );
-		struct TestData td = { .n = 50000000, .x = (double)rand() };
+	srand( time(NULL) );
+	struct TestData td = { .n = 50000000, .x = (double)rand() };
 
-		printf( "Timing %zu iterations of sqrt(%.3lf):\n", td.n, td.x );
+	printf( "Timing %zu iterations of sqrt(%.3lf):\n", td.n, td.x );
 
-		size_t ntimes = 1;
-		double usecs = msutimer_bench(timer, ntimes, stress_test_callback, &td, NULL);
-		printf( "%.9lf secs | Run %zu time(s)\n", MSUT_US2S(usecs), ntimes );
+	size_t ntimes = 1;
+	double usecs = msutimer_bench(timer, ntimes, stress_test_callback, &td, NULL);
+	printf( "%.9lf secs | Run %zu time(s)\n", MSUT_US2S(usecs), ntimes );
 
-		ntimes = 10;
-		usecs = msutimer_bench_average(timer, ntimes, stress_test_callback, &td, NULL);
-		printf( "%.9lf secs | Average after %zu times\n", MSUT_US2S(usecs), ntimes );
+	ntimes = 10;
+	usecs = msutimer_bench_average(timer, ntimes, stress_test_callback, &td, NULL);
+	printf( "%.9lf secs | Average after %zu times\n", MSUT_US2S(usecs), ntimes );
 
-		usecs = msutimer_bench_median(timer, ntimes, stress_test_callback, &td, NULL);
-		printf( "%.9lf secs | Median after %zu times\n", MSUT_US2S(usecs), ntimes );
+	usecs = msutimer_bench_median(timer, ntimes, stress_test_callback, &td, NULL);
+	printf( "%.9lf secs | Median after %zu times\n", MSUT_US2S(usecs), ntimes );
 
-		msutimer_free( timer );
-		exit(0);
-	}
+	msutimer_free( timer );
+	exit(0);
+}
 ~~~~
 ~~~~c
-	// Output -------------
-	Timing 50000000 iterations of sqrt(21954.000):
-	0.689210245 secs | Run 1 time(s)
-	0.713392777 secs | Average after 10 times
-	0.714011280 secs | Median after 10 times
+// Output -------------
+Timing 50000000 iterations of sqrt(21954.000):
+0.689210245 secs | Run 1 time(s)
+0.713392777 secs | Average after 10 times
+0.714011280 secs | Median after 10 times
 ~~~~
