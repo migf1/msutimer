@@ -1,7 +1,7 @@
 MSUTimer - Simple High Resolution Timer for C
 =============================================
 
-*MSUTimer* is a C99 toy project, mostly suitable for quick & dirty time measurements,
+MSUTimer is a C99 toy project, mostly suitable for quick & dirty time measurements,
 no more than a few dozens of minutes apart (unless used on Windows).
 
 Documentation
