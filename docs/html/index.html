@@ -104,7 +104,7 @@ Platform Dependent Measurements</h1>
 <p>Adding <code>clock_gettime(CLOCK_MONOTONIC_RAW)</code> when available, under POSIX, should be fairly easy by checking the preprocessor directive <code>_POSIX_TIMERS</code>. I'll probably do it, once I'm able to properly test it. </p>
 </blockquote>
 <p>Same goes for <b>macOS</b>, <em>MSSUTimer</em> currently also uses <code>gettimeofday()</code> when compiled under that OS.</p>
-<p>Lastly,<code>clockl()</code> is used as fallback on all other platforms (note that depending on the implementation, this function can roll over as often as every 35 minutes).</p>
+<p>Lastly,<code>clock()</code> is used as fallback on all other platforms (note that depending on the implementation, this function can roll over as often as every 35 minutes).</p>
 <p>Here is the quick summary of the clocking functions picked at compile time, depending on the platform:</p><ul>
 <li>on Windows: <code>QueryPerformanceCounter()</code></li>
 <li>on Unix/Linux/macOS: <code>gettimeofday()</code></li>
